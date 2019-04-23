@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+	<link href="https://fonts.googleapis.com/css?family=Saira:100,400,700,900" rel="stylesheet">
+	<link rel="stylesheet" href="style.css">
+	<meta charset="UTF-8">
+	<title>Mascões</title>
+</head>
+<body>
+	<div class="main">
+		<h1>Performance pessoal do Centro Oeste</h1>
+		<p>Comparação de pesquisadores que deixaram de fazer a pesquisa.</p>
+		<canvas id="myChart"></canvas>
+	</div>
+</body>
+	<script>
+		var ctx = document.getElementById('myChart').getContext('2d');
+		var chart = new Chart(ctx, {
+		    // The type of chart we want to create
+		    type: 'bar',
+
+		    // The data for our dataset
+		    data: {
+		        labels: ['S32', 'S33', 'S34', 'S35', 'S36', 'S37'],
+		        datasets: [{
+		        	label: 'Postos não realizados com pesquisador',
+		        	backgroundColor: 'rgba(0,0,0,0)',
+		        	borderColor: 'rgb(102,153,254)',
+		        	data: [45, 45, 113, 47, 54, 35],
+		        	type: 'line'
+		        }, {
+		        	label: 'Total de postos não realizados',
+		        	backgroundColor: 'rgba(0,0,0,0)',
+		        	borderColor: 'rgb(205,0,0)',
+		        	data: [155, 189, 189, 150, 157, 159],
+		        	type: 'line'
+		        }, {
+		        	label: 'Quantidade de pesquisadores que deixaram de fazer',
+		        	backgroundColor: 'rgb(205,100,0)',
+		        	data: [23, 24, 12, 15, 6]
+		        }, {
+		        	label: 'Pesquisadores sob minha responsabilidade',
+		        	backgroundColor: 'rgb(255,100,0)',
+		        	data: [55, 55, 53, 53, 54]
+		        }]
+		    },
+		    // Configuration options go here
+		    options: {
+		    	scales: {
+		            xAxes: [{
+		                stacked: true
+		            }],
+		            yAxes: [{
+		                stacked: true
+		            }]
+		        },
+		        legend: {
+		        	labels: {
+		        		fontFamily: 'Saira'
+		        	}
+		        }
+		    }
+		});
+	</script>
+</html>
