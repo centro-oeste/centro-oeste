@@ -9,9 +9,9 @@
 	<title>Gráficos – MS</title>
 </head>
 <body>
+	<h1>Gráficos do Centro Oeste</h1>
 	<div class="main">
 		<div class="main-geral">
-			<h1>Gráficos do Centro Oeste</h1>
 			<h2>Performance geral</h2>
 			<canvas id="geralChart"></canvas>
 	
@@ -50,7 +50,24 @@
 		    },
 
 		    // Configuration options go here
-		    options: {}
+		    options: {
+		    	legend: {
+		    		position: 'bottom',
+		    		boxWidth: 5,
+		    		display: true,
+			            labels: {
+			                fontFamily: 'Saira'
+			            }
+    				},
+    			plugins: {
+    				datalabels: {
+    					backgroundColor: 'rgb(0, 146, 63)',
+    					borderRadius: 5,
+    					color: 'white',
+    					fontFamily: 'Saira'
+    				}
+    			}
+		    }
 		});
 	</script>
 
@@ -92,7 +109,7 @@
     				},
     			plugins: {
     				datalabels: {
-    					backgroundColor: 'rgb(255, 0, 0)',
+    					backgroundColor: 'rgb(70,99,157)',
     					borderRadius: 5,
     					color: 'white',
     					fontFamily: 'Saira'
@@ -103,7 +120,7 @@
 	</script>
 	
 	<script>
-		var ctx = document.getElementById('s38Chart').getContext('2d');
+		var ctx = document.getElementById('s39Chart').getContext('2d');
 		var chart = new Chart(ctx, {
 		    // The type of chart we want to create
 		    type: 'line',
@@ -121,6 +138,14 @@
 
 		    // Configuration options go here
 		    options: {
+		    	legend: {
+		    		position: 'bottom',
+		    		boxWidth: 5,
+		    		display: true,
+			            labels: {
+			                fontFamily: 'Saira'
+			            }
+    				}
 		    }
 		})
 	</script>
@@ -133,7 +158,7 @@
 
 		    // The data for our dataset
 		    data: {
-		        labels: [ 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'],
+		        labels: [ 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Domingo'],
 		        datasets: [{
 		        	label: 'semana',
 		        	backgroundColor: 'rgba(0,0,0,0)',
@@ -144,6 +169,14 @@
 
 		    // Configuration options go here
 		    options: {
+		    	legend: {
+		    		position: 'bottom',
+		    		boxWidth: 5,
+		    		display: true,
+			            labels: {
+			                fontFamily: 'Saira'
+			            }
+    				}
 		    }
 		})
 	</script>
@@ -166,7 +199,16 @@
 		    },
 
 		    // Configuration options go here
-		    options: {}
+		    options: {
+		    	legend: {
+		    		position: 'bottom',
+		    		boxWidth: 5,
+		    		display: true,
+			            labels: {
+			                fontFamily: 'Saira'
+			            }
+    				}
+		    }
 		})
 	</script>
 </html>
