@@ -66,38 +66,34 @@
     					color: 'white',
     					fontFamily: 'Saira'
     				}
+    			},
+    			scales: {
+    				yAxes: [{
+    					beginAtZero: true
+    				}]
     			}
 		    }
 		});
 	</script>
 
 	<script>
-		var ctx = document.getElementById('geralEstadoChart').getContext('2d');
+		var ctx = document.getElementById('s40Chart').getContext('2d');
 		var chart = new Chart(ctx, {
 		    // The type of chart we want to create
 		    type: 'line',
 
 		    // The data for our dataset
 		    data: {
-				labels: ['S27', 'S28', 'S29', 'S30', 'S31', 'S32', 'S33', 'S34', 'S35', 'S36', 'S37'],
+		        labels: [ 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'],
 		        datasets: [{
-		        	label: 'MS',
+		        	label: 'semana',
 		        	backgroundColor: 'rgba(0,0,0,0)',
 		        	borderColor: 'rgb(102,153,254)',
-		        	data: [77, 76, 76, 78, 85, 85, 80, 82, 87, 80, 83]
-		        }, {
-		        	label: 'MT',
-		        	backgroundColor: 'rgba(0,0,0,0)',
-		        	borderColor: 'rgb(17,77,196)',
-		        	data: [81, 81, 86, 82, 84, 88, 90, 86, 87, 85, 85]
-		        }, {
-		        	label: 'GO',
-		        	backgroundColor: 'rgba(0,0,0,0)',
-		        	borderColor: 'rgb(70,99,157)',
-		        	data: [74, 79, 78, 80, 83, 85, 82, 84, 85, 89, 88]
+		        	data: [ 7, 25.7 ],
 		        }]
 		    },
 
+		    // Configuration options go here
 		    options: {
 		    	legend: {
 		    		position: 'bottom',
@@ -106,17 +102,9 @@
 			            labels: {
 			                fontFamily: 'Saira'
 			            }
-    				},
-    			plugins: {
-    				datalabels: {
-    					backgroundColor: 'rgb(70,99,157)',
-    					borderRadius: 5,
-    					color: 'white',
-    					fontFamily: 'Saira'
     				}
-    			}
-    		}
-		});
+		    }
+		})
 	</script>
 	
 	<script>
