@@ -1,19 +1,41 @@
+*, html, body {
+	margin: 0;
+	padding: 0;
+}
+
 body {
 	font-family: 'Saira', sans-serif;
 }
 
 .main {
-	display: grid;
-	grid-template-columns: repeat(2, 1fr);
-	grid-column-gap: 2rem;
 	margin: 3rem auto;
 }
 
-.main-one {
-	max-width: 43rem;
-	margin: 0 auto;
+.main-geral, .main-estado, .main-semanal, .main-historica {
+	padding: 3rem;
 }
 
-h1 {
-	text-align: center;
+.main-geral {
+	display: flex;
+	background: #8AFFB1;
+}
+
+.geral-chart {
+	height: 500px;
+	padding-left: 3rem;
+}
+
+.main-historica {
+	background: #63AF7C;
+	position: relative;
+	height: 300px;
+}
+
+.main-semanal {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+}
+
+.semanal-item {
+	padding: 1rem;
 }
