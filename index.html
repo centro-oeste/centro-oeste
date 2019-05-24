@@ -41,6 +41,11 @@
 
 		<div class="main-semanal">
 			<div class="semanal-item">
+				<h2>Performance na S42</h2>
+				<canvas id="s42Chart"></canvas>
+			</div>
+
+			<div class="semanal-item">
 				<h2>Performance na S41</h2>
 				<canvas id="s41Chart"></canvas>
 			</div>
@@ -263,7 +268,7 @@ function makeChart(geral) {
 
 
 	var ctx4b = document.getElementById('s42Chart').getContext('2d');
-	var chart = new Chart(ctx4, {
+	var chart = new Chart(ctx4b, {
 	    // The type of chart we want to create
 	    type: 'line',
 
