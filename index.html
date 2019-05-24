@@ -3,7 +3,9 @@
 <head>
 	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 	<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.5.0"></script>
+	<script src="https://d3js.org/d3.v5.min.js"></script>
 	<link href="https://fonts.googleapis.com/css?family=Saira:100,400,700,900" rel="stylesheet">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 	<link rel="stylesheet" href="style.css">
 	<meta charset="UTF-8">
 	<title>Gráficos – MS</title>
@@ -12,204 +14,457 @@
 	<h1>Gráficos do Centro Oeste</h1>
 	<div class="main">
 		<div class="main-geral">
-			<h2>Performance geral</h2>
-			<canvas id="geralChart"></canvas>
-	
-			<h2>Performance geral por estado</h2>
-			<canvas id="geralEstadoChart"></canvas>
+			<div class="geral-info">
+				<h2><i class="fas fa-gas-pump"></i> • 1659</h2>
+				<p>Total de postos</p>
+				<h2><i class="far fa-calendar-check"></i> • 1027</h2>
+				<p>Postos 1X</p>
+				<h2><i class="far fa-calendar-check"></i> • 632</h2>
+				<p>Postos 3x</p>
+			</div>
+			<div class="geral-chart">
+				<h2>Performance geral</h2>
+				<canvas id="geralChart" style="width: 900px"></canvas>
+			</div>
+		</div>
+
+		<div class="main-historica">
+			<h2>Projeção histórica por dia realizado</h2>
+			<canvas id="historicaChart"></canvas>
 		</div>
 		
+		<div class="main-estado">
+			<h2>Performance por estado</h2>
+			<canvas id="geralEstadoChart" style="height: 600px"></canvas>
+			</div>
+		</div>
+
 		<div class="main-semanal">
-			<h2>Performance na S40</h2>
-			<canvas id="s40Chart"></canvas>
+			<div class="semanal-item">
+				<h2>Performance na S41</h2>
+				<canvas id="s41Chart"></canvas>
+			</div>
 
-			<h2>Performance na S39</h2>
-			<canvas id="s39Chart"></canvas>
+			<div class="semanal-item">
+				<h2>Performance na S40</h2>
+				<canvas id="s40Chart"></canvas>
+			</div>
 
-			<h2>Performance na S38</h2>
-			<canvas id="s38Chart"></canvas>
+			<div class="semanal-item">
+				<h2>Performance na S39</h2>
+				<canvas id="s39Chart"></canvas>
+			</div>
+
+			<div class="semanal-item">
+				<h2>Performance na S38</h2>
+				<canvas id="s38Chart"></canvas>
+			</div>
 	
-			<h2>Performance na S37</h2>
-			<canvas id="s37Chart"></canvas>
+			<div class="semanal-item">
+				<h2>Performance na S37</h2>
+				<canvas id="s37Chart"></canvas>
+			</div>
 		</div>
 	</div>
 </body>
-	<script>
-		var ctx = document.getElementById('geralChart').getContext('2d');
-		var chart = new Chart(ctx, {
-		    // The type of chart we want to create
-		    type: 'line',
 
-		    // The data for our dataset
-		    data: {
-		        labels: ['S27', 'S28', 'S29', 'S30', 'S31', 'S32', 'S33', 'S34', 'S35', 'S36', 'S37', 'S38', 'S39'],
-		        datasets: [{
-		            label: 'Performance geral',
-		            backgroundColor: 'rgba(0, 146, 63, .4)',
-		            borderColor: 'rgb(0, 146, 63)',
-		            data: [82.7, 83.7, 82.6, 82.1, 85.4, 88.2, 85.8, 86.3, 87.8, 88.2, 90.7, 92, 94.9],
+<script>
+function makeChart(geral) {
+	var projetoLabels = geral.map(function(d) { return d.Projeto });
+	var performanceData = geral.map(function(d) { return +d.PerformanceGeral });
+	var GeralSLAUrb = geral.map(function(d){ return +d.GeralSLAUrb });
+	var GeralSLARod = geral.map(function(d){ return +d.GeralSLARod });
+	var umaGeral = geral.map(function(d){ return +d.UmaGeral});
+	var umaUrb = geral.map(function(d){ return +d.UmaUrb});
+	var umaRod = geral.map(function(d){ return +d.UmaRod});
+	var SemanalGeralS42 = geral.map(function(d){return +d.SemanalGeralS42});
+	var SemanalLabel = geral.map(function(d){return d.SemanalLabel});	
+	var SemanalGeralS41 = geral.map(function(d){return +d.SemanalGeralS41});
 
-		        }]
-		    },
+	var ctx = document.getElementById('geralChart').getContext('2d');
+	var chart = new Chart(ctx, {
+	    // The type of chart we want to create
+	    type: 'line',
+	    // The data for our dataset
+	    data: {
+	        labels: projetoLabels,
+	        datasets: [{
+	            label: 'Performance geral',
+	            backgroundColor: 'rgba(0, 146, 63, .4)',
+	            borderColor: 'rgb(0, 146, 63)',
+	            data: performanceData,
+	        }]
+	    },
+	    // Configuration options go here
+	    options: {
+	    	legend: {
+	    		position: 'bottom',
+	    		boxWidth: 5,
+	    		display: true,
+		            labels: {
+		                fontFamily: 'Saira'
+		            }
+				},
+			plugins: {
+				datalabels: {
+					backgroundColor: 'rgb(0, 146, 63)',
+					borderRadius: 5,
+					padding: 4,
+					color: 'white',
+					fontFamily: 'Saira'
+				}
+			},
+			scales: {
+				yAxes: [{
+					beginAtZero: true
+				}]
+			}
+	    }
+	});
 
-		    // Configuration options go here
-		    options: {
-		    	legend: {
-		    		position: 'bottom',
-		    		boxWidth: 5,
-		    		display: true,
-			            labels: {
-			                fontFamily: 'Saira'
-			            }
-    				},
-    			plugins: {
-    				datalabels: {
-    					backgroundColor: 'rgb(0, 146, 63)',
-    					borderRadius: 5,
-    					padding: 4,
-    					color: 'white',
-    					fontFamily: 'Saira'
-    				}
-    			},
-    			scales: {
-    				yAxes: [{
-    					beginAtZero: true
-    				}]
-    			}
-		    }
-		});
-	</script>
+	var ctx2 = document.getElementById('geralEstadoChart').getContext('2d');
+	var chart = new Chart(ctx2, {
+	    // The type of chart we want to create
+	    type: 'line',
 
-	<script>
-		var ctx = document.getElementById('s40Chart').getContext('2d');
-		var chart = new Chart(ctx, {
-		    // The type of chart we want to create
-		    type: 'line',
+	    // The data for our dataset
+	    data: {
+			labels: ['S27', 'S28', 'S29', 'S30', 'S31', 'S32', 'S33', 'S34', 'S35', 'S36', 'S37'],
+	        datasets: [{
+	        	label: 'MS',
+	        	backgroundColor: 'rgba(70,255,99,0.3)',
+	        	borderColor: 'rgb(70,255,99)',
+	        	data: [77, 76, 76, 78, 85, 85, 80, 82, 87, 80, 83]
+	        }, {
+	        	label: 'MT',
+	        	backgroundColor: 'rgba(255,99,70,0.3)',
+	        	borderColor: 'rgb(255,99,70)',
+	        	data: [81, 81, 86, 82, 84, 88, 90, 86, 87, 85, 85]
+	        }, {
+	        	label: 'GO',
+	        	backgroundColor: 'rgba(70,99,255,0.3)',
+	        	borderColor: 'rgb(70,99,255)',
+	        	data: [74, 79, 78, 80, 83, 85, 82, 84, 85, 89, 88]
+	        }]
+	    },
 
-		    // The data for our dataset
-		    data: {
-		        labels: [ 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'],
-		        datasets: [{
-		        	label: 'semana',
-		        	backgroundColor: 'rgba(0,0,0,0)',
-		        	borderColor: 'rgb(102,153,254)',
-		        	data: [ 7, 25.7, 50.2, 65.8, 72.8, 79.7, 90.1 ],
-		        }]
-		    },
+	    options: {
+	    	legend: {
+	    		position: 'bottom',
+	    		boxWidth: 5,
+	    		display: true,
+		            labels: {
+		                fontFamily: 'Saira'
+		            }
+				},
+			scales: {
+				yAxes: [{
+					gridLines: {
+						display: false
+					},
+					ticks: {
+						display: false
+					},
+				}],
+				xAxes: [{
+					gridLines: {
+						display: false
+					}
+				}]
+			},
+			plugins: {
+			//	datalabels: {
+			//		backgroundColor: 'rgb(70,99,157)',
+			//		borderRadius: 5,
+			//		color: 'white',
+			//		fontFamily: 'Saira'
+			//	}
+			}
+		}
+	});
 
-		    // Configuration options go here
-		    options: {
-		    	legend: {
-		    		position: 'bottom',
-		    		boxWidth: 5,
-		    		display: true,
-			            labels: {
-			                fontFamily: 'Saira'
-			            }
-    				},
-    			plugins: {
-    				datalabels: {
-    					backgroundColor: 'rgb(102,153,254)',
-    					borderRadius: 5,
-    					padding: 4,
-    					color: 'white',
-    					fontFamily: 'Saira'
-    				}
-    			}
-		    }
-		})
-	</script>
-	
-	<script>
-		var ctx = document.getElementById('s39Chart').getContext('2d');
-		var chart = new Chart(ctx, {
-		    // The type of chart we want to create
-		    type: 'line',
+	var historicaDataSeg = [ 16, 16, 15, 17, 18, 15, 13, 28, 15, 24 ];
+	var historicaDataTer = [ 24, 11, 16, 9, 12, 16, 26, 11, 22, 29 ];
+	var historicaDataQua = [ 15, 18, 19, 15, 14, 6, 14, 19, 18, 8 ];
+	var historicaDataQui = [ 12, 8, 14, 13, 10, 23, 9, 10, 19, 16 ];
+	var historicaDataSex = [ 9, 25, 13, 20, 20, 11, 16, 12, 7, 5 ];
+	var historicaDataSab = [ 15, 12, 11, 14, 16, 20, 12, 9, 6, 14 ];
+	var historicaDataDom = [ 8, 10, 12, 11, 10, 9, 10, 10, 11, 5 ];
 
-		    // The data for our dataset
-		    data: {
-		        labels: [ 'Segunda', 'Terça', 'Quinta', 'Sexta', 'Sábado', 'Domingo'],
-		        datasets: [{
-		        	label: 'semana',
-		        	backgroundColor: 'rgba(0,0,0,0)',
-		        	borderColor: 'rgb(102,153,254)',
-		        	data: [ 5.6, 31.6, 71, 79.3, 82, 91.6 ],
-		        }]
-		    },
+	var ctx3 = document.getElementById('historicaChart').getContext('2d');
+	var myChart = new Chart(ctx3, {
+	    type: 'bar',
+	    data: {
+	        labels: ["S30", "S31", "S32", "S33", "S34", "S35", "S36", "S37", "S38", "S39"],
+	        datasets: [{
+	            label: 'Seg',
+	            backgroundColor: '#BBBB77',
+	            data: historicaDataSeg
+	        },{
+	        	label: 'Ter',
+	        	backgroundColor: '#F2F2B3',
+	            data: historicaDataTer
+	        },{
+	        	label: 'Qua',
+	        	backgroundColor: '#D6D697' ,
+	            data: historicaDataQua
+	        },{
+	        	label: 'Qui',
+	        	backgroundColor: '#D2D2A6' ,
+	            data: historicaDataQui
+	        },{
+	        	label: 'Sex',
+	        	backgroundColor: '#DBDB93' ,
+	            data: historicaDataSex
+	        },{
+	        	label: 'Sab',
+	        	backgroundColor: '#B4B476' ,
+	            data: historicaDataSab
+	        },{
+	        	label: 'Dom',
+	        	backgroundColor: '#BFBF8B' ,
+	            data: historicaDataDom
+	        }]
+	    },
+	    options: {
+	        responsive: true,
+	    	maintainAspectRatio: false,
+	    	legend: {
+	    		fontColor: '#fff'
+	    	},
+	    	scales: {
+				xAxes: [{
+					gridLines: { 
+						display: false
+					},
+					ticks: {
+						fontColor: 'white'
+					}
+				}],
+				yAxes: [{
+					gridLines: {
+						display: false
+					},
+					ticks: {
+						display: false
+					}
+				}]
+			},
+			plugins: {
+	    			datalabels: {
+	    				anchor: 'end',
+	    				color: 'white',
+	    				fontFamily: 'Saira',
+	    				padding: 4,
+	    			}
+	    		}
+	    }
+	});
 
-		    // Configuration options go here
-		    options: {
-		    	legend: {
-		    		position: 'bottom',
-		    		boxWidth: 5,
-		    		display: true,
-			            labels: {
-			                fontFamily: 'Saira'
-			            }
-    				}
-		    }
-		})
-	</script>
 
-	<script>
-		var ctx = document.getElementById('s38Chart').getContext('2d');
-		var chart = new Chart(ctx, {
-		    // The type of chart we want to create
-		    type: 'line',
+	var ctx4b = document.getElementById('s42Chart').getContext('2d');
+	var chart = new Chart(ctx4, {
+	    // The type of chart we want to create
+	    type: 'line',
 
-		    // The data for our dataset
-		    data: {
-		        labels: [ 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Domingo'],
-		        datasets: [{
-		        	label: 'semana',
-		        	backgroundColor: 'rgba(0,0,0,0)',
-		        	borderColor: 'rgb(102,153,254)',
-		        	data: [ 13.2, 32.1, 56.4, 65.1, 75, 88.2 ],
-		        }]
-		    },
+	    // The data for our dataset
+	    data: {
+	        labels: SemanalLabel,
+	        datasets: [{
+	        	label: 'Geral Geral',
+	        	backgroundColor: 'rgba(102,153,254,.3)',
+	        	borderColor: 'rgb(102,153,254)',
+	        	data: SemanalGeralS42,
+	        }]
+	    },
 
-		    // Configuration options go here
-		    options: {
-		    	legend: {
-		    		position: 'bottom',
-		    		boxWidth: 5,
-		    		display: true,
-			            labels: {
-			                fontFamily: 'Saira'
-			            }
-    				}
-		    }
-		})
-	</script>
+	    // Configuration options go here
+	    options: {
+	    	legend: {
+	    		position: 'bottom',
+	    		boxWidth: 5,
+	    		display: true,
+		            labels: {
+		                fontFamily: 'Saira'
+		            }
+				},
+			plugins: {
+				datalabels: {
+					backgroundColor: 'rgb(102,153,254)',
+					borderRadius: 5,
+					padding: 4,
+					color: 'white',
+					fontFamily: 'Saira'
+				}
+			}
+	    }
+	});
 
-	<script>
-		var ctx = document.getElementById('s37Chart').getContext('2d');
-		var chart = new Chart(ctx, {
-		    // The type of chart we want to create
-		    type: 'line',
+	var ctx4 = document.getElementById('s41Chart').getContext('2d');
+	var chart = new Chart(ctx4, {
+	    // The type of chart we want to create
+	    type: 'line',
 
-		    // The data for our dataset
-		    data: {
-		        labels: [ 'Terça', 'Quarta', 'Quinta', 'Sábado', 'Domingo'],
-		        datasets: [{
-		        	label: 'semana',
-		        	backgroundColor: 'rgba(0,0,0,0)',
-		        	borderColor: 'rgb(102,153,254)',
-		        	data: [ 34.28, 54.9, 67.6, 80.2, 88.7 ],
-		        }]
-		    },
+	    // The data for our dataset
+	    data: {
+	        labels: SemanalLabel,
+	        datasets: [{
+	        	label: 'Geral Geral',
+	        	backgroundColor: 'rgba(102,153,254,.3)',
+	        	borderColor: 'rgb(102,153,254)',
+	        	data: SemanalGeralS41,
+	        }]
+	    },
 
-		    // Configuration options go here
-		    options: {
-		    	legend: {
-		    		position: 'bottom',
-		    		boxWidth: 5,
-		    		display: true,
-			            labels: {
-			                fontFamily: 'Saira'
-			            }
-    				}
-		    }
-		})
-	</script>
+	    // Configuration options go here
+	    options: {
+	    	legend: {
+	    		position: 'bottom',
+	    		boxWidth: 5,
+	    		display: true,
+		            labels: {
+		                fontFamily: 'Saira'
+		            }
+				},
+			plugins: {
+				datalabels: {
+					backgroundColor: 'rgb(102,153,254)',
+					borderRadius: 5,
+					padding: 4,
+					color: 'white',
+					fontFamily: 'Saira'
+				}
+			}
+	    }
+	});
+
+	var ctx5 = document.getElementById('s40Chart').getContext('2d');
+	var chart = new Chart(ctx5, {
+	    // The type of chart we want to create
+	    type: 'line',
+
+	    // The data for our dataset
+	    data: {
+	        labels: [ 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'],
+	        datasets: [{
+	        	label: 'semana',
+	        	backgroundColor: 'rgba(0,0,0,0)',
+	        	borderColor: 'rgb(102,153,254)',
+	        	data: [ 7, 25.7, 50.2, 65.8, 72.8, 79.7, 90.1 ],
+	        }]
+	    },
+
+	    // Configuration options go here
+	    options: {
+	    	legend: {
+	    		position: 'bottom',
+	    		boxWidth: 5,
+	    		display: true,
+		            labels: {
+		                fontFamily: 'Saira'
+		            }
+				},
+			plugins: {
+				datalabels: {
+					backgroundColor: 'rgb(102,153,254)',
+					borderRadius: 5,
+					padding: 4,
+					color: 'white',
+					fontFamily: 'Saira'
+				}
+			}
+	    }
+	})
+
+	var ctx6 = document.getElementById('s39Chart').getContext('2d');
+	var chart = new Chart(ctx6, {
+	    // The type of chart we want to create
+	    type: 'line',
+
+	    // The data for our dataset
+	    data: {
+	        labels: [ 'Segunda', 'Terça', 'Quinta', 'Sexta', 'Sábado', 'Domingo'],
+	        datasets: [{
+	        	label: 'semana',
+	        	backgroundColor: 'rgba(0,0,0,0)',
+	        	borderColor: 'rgb(102,153,254)',
+	        	data: [ 5.6, 31.6, 71, 79.3, 82, 91.6 ],
+	        }]
+	    },
+
+	    // Configuration options go here
+	    options: {
+	    	legend: {
+	    		position: 'bottom',
+	    		boxWidth: 5,
+	    		display: true,
+		            labels: {
+		                fontFamily: 'Saira'
+		            }
+				}
+	    }
+	})
+
+	var ctx7 = document.getElementById('s38Chart').getContext('2d');
+	var chart = new Chart(ctx7, {
+	    // The type of chart we want to create
+	    type: 'line',
+
+	    // The data for our dataset
+	    data: {
+	        labels: [ 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Domingo'],
+	        datasets: [{
+	        	label: 'semana',
+	        	backgroundColor: 'rgba(0,0,0,0)',
+	        	borderColor: 'rgb(102,153,254)',
+	        	data: [ 13.2, 32.1, 56.4, 65.1, 75, 88.2 ],
+	        }]
+	    },
+
+	    // Configuration options go here
+	    options: {
+	    	legend: {
+	    		position: 'bottom',
+	    		boxWidth: 5,
+	    		display: true,
+		            labels: {
+		                fontFamily: 'Saira'
+		            }
+				}
+	    }
+	})
+		
+	var ctx8 = document.getElementById('s37Chart').getContext('2d');
+	var chart = new Chart(ctx8, {
+	    // The type of chart we want to create
+	    type: 'line',
+
+	    // The data for our dataset
+	    data: {
+	        labels: [ 'Terça', 'Quarta', 'Quinta', 'Sábado', 'Domingo'],
+	        datasets: [{
+	        	label: 'semana',
+	        	backgroundColor: 'rgba(0,0,0,0)',
+	        	borderColor: 'rgb(102,153,254)',
+	        	data: [ 34.28, 54.9, 67.6, 80.2, 88.7 ],
+	        }]
+	    },
+
+	    // Configuration options go here
+	    options: {
+	    	legend: {
+	    		position: 'bottom',
+	    		boxWidth: 5,
+	    		display: true,
+		            labels: {
+		                fontFamily: 'Saira'
+		            }
+				}
+	    }
+	})
+}
+
+  d3.csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vRmxOwUjLSWFiXeWVqVD3ulKePwZFS4BbyeJgd5cw81gvi96HIoeeRBZ-R0glIkTTa0RbtFLgsH6Mra/pub?gid=1345485106&single=true&output=csv")
+  .then(makeChart);
+</script>
 </html>
